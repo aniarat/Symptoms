@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Symptoms.Client.MainPage">
+
+    <FlexLayout Direction="Column">
+        <HorizontalStackLayout Padding="10" FlexLayout.Basis="120">
+            <Button x:Name="btnAdd" Text="Add" Margin="0,0,10,0" Clicked="btnAdd_Clicked" />
+            <Button x:Name="btnShowSymptoms" Text="Show Symptoms" Clicked="btnShowSymptoms_Clicked" />
+        </HorizontalStackLayout>
+        <ListView x:Name="symptomsListView" FlexLayout.Grow="1" HasUnevenRows="True" ItemTapped="symptomsListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <VerticalStackLayout Padding="5">
+                            <Label Text="{Binding PainType}" FontSize="17" FontAttributes="Bold" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="{Binding CreatedAt, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                                <Label Grid.Column="2" Text="{Binding SymptomDurationHours}" FontAttributes="Bold" TextColor="Red" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </FlexLayout>
+
+</ContentPage>
