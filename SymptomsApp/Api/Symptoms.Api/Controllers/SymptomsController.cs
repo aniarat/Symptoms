@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Symptoms.Api.Domain.Models;
 using Symptoms.Api.Domain.DTOs;
-using Symptoms.Api.Repositories;
+using Symptoms.Api.Domain;
 
 namespace Symptoms.Api.Controllers
 {
@@ -9,9 +9,9 @@ namespace Symptoms.Api.Controllers
     [ApiController]
     public class SymptomsController : ControllerBase
     {
-        private readonly ISymptomService _symptomService;
+        private readonly ISymptomRepository _symptomService;
 
-        public SymptomsController(ISymptomService symptomService)
+        public SymptomsController(ISymptomRepository symptomService)
         {
             this._symptomService = symptomService;
         }

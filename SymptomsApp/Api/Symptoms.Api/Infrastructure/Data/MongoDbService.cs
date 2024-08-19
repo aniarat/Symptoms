@@ -1,6 +1,6 @@
 ﻿using MongoDB.Driver;
 
-namespace Symptoms.Api.Data
+namespace Symptoms.Api.Infrastructure.Data
 {
     public class MongoDbService
     {

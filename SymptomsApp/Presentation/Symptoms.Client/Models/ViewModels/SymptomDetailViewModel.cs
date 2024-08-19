@@ -1,12 +1,15 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Symptoms.Client.Pages.Models.ViewModels
+namespace Symptoms.Client.Models.ViewModels
 {
-    internal class SymptomDetailViewModel
+    internal partial class SymptomDetailViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private Symptom symptom;
     }
 }

@@ -1,5 +1,6 @@
-using Symptoms.Api.Data;
-using Symptoms.Api.Repositories;
+using Symptoms.Api.Domain;
+using Symptoms.Api.Infrastructure.Data;
+using Symptoms.Api.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<MongoDbService>();
-builder.Services.AddSingleton<ISymptomService, SymptomService>();
+builder.Services.AddSingleton<ISymptomRepository, SymptomRepository>();
 
 var app = builder.Build();
 

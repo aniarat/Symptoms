@@ -2,9 +2,9 @@
 using Symptoms.Api.Domain.DTOs;
 using Symptoms.Api.Domain.Models;
 
-namespace Symptoms.Api.Repositories
+namespace Symptoms.Api.Domain
 {
-    public interface ISymptomService
+    public interface ISymptomRepository
     {
         public Task<Symptom> GetSymptomByIdAsync(string symptomId);
         public Task<List<Symptom>> GetAllSymptomsAsync();

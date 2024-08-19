@@ -21,7 +21,7 @@ namespace Symptoms.Api.Domain.Models
         public int SeverityScale { get; set; }
 
         [BsonElement("duration_hours"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
-        public int? SymptomDurationHours { get; set; }
+        public decimal? SymptomDurationHours { get; set; }
 
         [BsonElement("occurence_counter"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
         public int OccurrenceCounter { get; set; }

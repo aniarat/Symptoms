@@ -1,16 +1,17 @@
 ﻿using MongoDB.Driver;
-using Symptoms.Api.Data;
+using Symptoms.Api.Domain;
 using Symptoms.Api.Domain.DTOs;
 using Symptoms.Api.Domain.Models;
+using Symptoms.Api.Infrastructure.Data;
 
-namespace Symptoms.Api.Repositories
+namespace Symptoms.Api.Infrastructure.Repositories
 {
-    public class SymptomService : ISymptomService
+    public class SymptomRepository : ISymptomRepository
     {
         private readonly IMongoCollection<Symptom>? _symptoms;
         private readonly IMongoCollection<SymptomHistory>? _symptomsHistory;
 
-        public SymptomService(MongoDbService mongoDbService)
+        public SymptomRepository(MongoDbService mongoDbService)
         {
             _symptoms = mongoDbService.Database?.GetCollection<Symptom>("symptom");
             _symptomsHistory = mongoDbService.Database?.GetCollection<SymptomHistory>("symptom_history");

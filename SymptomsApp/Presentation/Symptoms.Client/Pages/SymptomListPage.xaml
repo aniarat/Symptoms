@@ -2,11 +2,53 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Symptoms.Client.Pages.SymptomListPage"
-             Title="SymptomListPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="SymptomListPage"
+             xmlns:vm="clr-namespace:Symptoms.Client.Models.ViewModels"
+             xmlns:models="clr-namespace:Symptoms.Client.Models"
+             x:DataType="vm:SymptomsViewModel">
+    <FlexLayout Direction="Column">
+        <Frame Margin="5" Padding="5" FlexLayout.Basis="600">
+            <VerticalStackLayout Padding="10">
+                <Label Text="Created At:" FontAttributes="Bold" />
+                <Label Text="{Binding Symptom.CreatedAt, StringFormat='{0:yyyy-MM-dd HH:mm}'}" />
+                <!--<Entry Placeholder="CreatedAt" Text="{Binding Symptom.CreatedAt}" />-->
+                <!--<Entry Placeholder="Pain Type" Text="{Binding Symptom.PainType}" />-->
+                <Label Text="Pain Type" FontAttributes="Bold" />
+
+                <Picker Title="Select Pain Type"
+                        ItemsSource="{Binding PainTypeList}"
+                        SelectedItem="{Binding Symptom.PainType}"
+                        ItemDisplayBinding="{Binding .}" />
+                <!--<Entry Placeholder="Severity Scale" Text="{Binding Symptom.SeverityScale}" />-->
+                <!-- Slider dla Severity Scale -->
+                <Label Text="Severity Scale" FontAttributes="Bold" />
+                <Slider x:Name="severitySlider"
+                    Minimum="1"
+                    Maximum="10"
+                    Value="{Binding Symptom.SeverityScale, Mode=TwoWay}" />
+
+                <!-- Label wyświetlająca wartość Slidera -->
+                <Label Text="{Binding Source={x:Reference severitySlider}, Path=Value, StringFormat='Severity: {0:F0}'}"
+                    HorizontalOptions="Center"
+                    FontAttributes="Bold"
+                    Margin="0,5,0,0" />
+                <Label Text="Symptom Duration (Hours)" FontAttributes="Bold" />
+                <Entry Placeholder="Symptom Duration Hours" Text="{Binding Symptom.SymptomDurationHours, Mode=TwoWay}" />
+                <Button Text="Add Symptom" Margin="10" Command="{Binding AddCommand}" />
+            </VerticalStackLayout>
+        </Frame>
+
+        <ListView FlexLayout.Grow="1" ItemsSource="{Binding Symptoms}" ItemTapped="ListView_ItemTapped">
+            <ListView.Header>
+                <VerticalStackLayout BackgroundColor="LavenderBlush" Padding="5">
+                    <Label HorizontalOptions="Center" Text="Symptoms" TextColor="White" FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type models:Symptom}">
+                    <TextCell Text="{Binding PainType}" Detail="{Binding CreatedAt, StringFormat='{0:yyyy-MM-dd HH:mm}'}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </FlexLayout>
 </ContentPage>

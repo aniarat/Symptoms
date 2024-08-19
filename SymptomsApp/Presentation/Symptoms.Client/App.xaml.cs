@@ -1,12 +1,15 @@
-﻿namespace Symptoms.Client
+﻿using Symptoms.Client.Pages;
+
+namespace Symptoms.Client
 {
     public partial class App : Application
     {
-        public App(MainPage mainPage)
+        public App()
         {
             InitializeComponent();
 
-            MainPage = mainPage;
+            //MainPage = mainPage;
+            MainPage = new NavigationPage(new SymptomListPage());
         }
     }
 }

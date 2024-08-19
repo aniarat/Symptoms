@@ -2,11 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Symptoms.Client.Pages.SymptomDetailPage"
-             Title="SymptomDetailPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Symptom Details"
+             xmlns:vm="clr-namespace:Symptoms.Client.Models.ViewModels"
+             x:DataType="vm:SymptomDetailViewModel">
+    <TableView Intent="Data">
+        <TableRoot>
+            <TableSection Title="Details">
+                <TextCell Text="Created At" Detail="{Binding Symptom.CreatedAt}" />
+                <TextCell Text="Pain Type" Detail="{Binding Symptom.PainType}" />
+                <TextCell Text="Severity Scale" Detail="{Binding Symptom.SeverityScale}" />
+                <TextCell Text="SymptomDurationHours" Detail="{Binding Symptom.SymptomDurationHours}" />
+
+            </TableSection>
+        </TableRoot>
+    </TableView>
 </ContentPage>
