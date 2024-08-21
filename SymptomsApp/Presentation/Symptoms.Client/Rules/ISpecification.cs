@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Symptoms.Client.Rules
 {
-    internal interface ISpecification
+    internal interface ISpecification<T>
     {
-        bool IsSatisfiedBy(Symptom symptom);
+        bool IsSatisfiedBy(T entity);
+        string ErrorMessage { get; }
     }
 }

@@ -7,9 +7,9 @@ namespace Symptoms.Client.Pages;
 public partial class SymptomAddEdit : ContentPage
 {
     private readonly SymptomsApiClientService _apiClient;
-    private Symptom? _symptom;
+    private readonly Symptom? _symptom;
 
-    public SymptomAddEdit(SymptomsApiClientService apiClient, Symptom symptom)
+    public SymptomAddEdit(SymptomsApiClientService apiClient, Symptom? symptom)
 	{
 		InitializeComponent();
         _apiClient = apiClient;

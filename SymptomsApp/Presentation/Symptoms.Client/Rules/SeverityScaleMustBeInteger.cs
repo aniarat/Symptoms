@@ -7,22 +7,18 @@ using System.Threading.Tasks;
 
 namespace Symptoms.Client.Rules
 {
-    internal class PainTypeMustBeEqualToEnum : ISpecification<Symptom>
+    internal class SeverityScaleMustBeInteger : ISpecification<Symptom>
     {
         public string ErrorMessage { get; private set; }
 
         public bool IsSatisfiedBy(Symptom symptom)
         {
-            // Sprawdzenie, czy wartość PainType jest prawidłowa
-            if (!Enum.IsDefined(typeof(Symptom.PainTypes), symptom.PainType))
+            if (!int.TryParse(symptom.SeverityScale.ToString(), out int severity))
             {
-                ErrorMessage = "Invalid PainType. The value must be one of the predefined PainTypes.";
+                ErrorMessage = "Severity scale must be a valid integer.";
                 return false;
             }
-
             return true;
-        } 
-
-
+        }
     }
 }

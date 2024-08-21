@@ -16,7 +16,17 @@ namespace Symptoms.Client
 
         private async void btnAdd_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new SymptomAddEdit(_apiClient, null));
+            //await Navigation.PushModalAsync(new SymptomAddEdit(_apiClient, null));
+            try
+            {
+                await Navigation.PushModalAsync(new SymptomAddEdit(_apiClient, null));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error navigating to SymptomAddEdit: {ex.Message}");
+                await DisplayAlert("Error", "An error occurred while navigating.", "OK");
+            }
+
         }
 
         private async void btnShowSymptoms_Clicked(object sender, EventArgs e)

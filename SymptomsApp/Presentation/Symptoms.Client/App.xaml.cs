@@ -4,12 +4,14 @@ namespace Symptoms.Client
 {
     public partial class App : Application
     {
-        public App()
+        private Page? mainPage;
+
+        public App(MainPage mainPage)
         {
             InitializeComponent();
 
-            //MainPage = mainPage;
-            MainPage = new NavigationPage(new SymptomListPage());
+            MainPage = mainPage;
+            //MainPage = new NavigationPage(new SymptomListPage());
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Symptoms.Client.Rules
 {
-    internal class SeverityScaleMustBeInRange : ISpecification
+    internal class SeverityScaleMustBeInRange : ISpecification<Symptom>
     {
 
         private readonly int _severity;
@@ -20,6 +20,9 @@ namespace Symptoms.Client.Rules
             }
             _severity = severity;
         }
+
+        public string ErrorMessage => throw new NotImplementedException();
+
         public bool IsSatisfiedBy(Symptom symptom)
         {
             return symptom.SeverityScale == _severity;

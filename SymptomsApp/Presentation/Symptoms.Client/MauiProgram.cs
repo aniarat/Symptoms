@@ -2,6 +2,7 @@
 using Symptoms.ApiClient.IoC;
 using Symptoms.Client.Models.ViewModels;
 using Symptoms.Client.Pages;
+using System.Runtime.ExceptionServices;
 
 namespace Symptoms.Client
 {
@@ -19,7 +20,9 @@ namespace Symptoms.Client
                 });
 
             builder.Services.AddSymptomsApiClientService(x => x.ApiBaseAddress = "http://10.0.2.2:5158/");
-            //builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<SymptomAddEdit>();
+
             builder.Services.AddTransient<SymptomsViewModel>();
             builder.Services.AddTransient<SymptomDetailViewModel>();
 
@@ -47,8 +50,14 @@ namespace Symptoms.Client
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+            // Rejestracja globalnej obsługi wyjątków
+            AppDomain.CurrentDomain.FirstChanceException += CurrentDomain_FirstChanceException;
 
             return builder.Build();
+        }
+        private static void CurrentDomain_FirstChanceException(object sender, FirstChanceExceptionEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"********************************** UNHANDLED EXCEPTION! Details: {e.Exception.ToString()}");
         }
     }
 }

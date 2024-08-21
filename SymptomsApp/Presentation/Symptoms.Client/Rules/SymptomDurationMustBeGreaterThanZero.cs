@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Symptoms.Client.Rules
 {
-    internal class SymptomDurationMustBeGreaterThanZero
+    internal class SymptomDurationMustBeGreaterThanZero : ISpecification<Symptom>
     {
         private readonly decimal _minHours;
 
@@ -19,6 +19,8 @@ namespace Symptoms.Client.Rules
             }
             _minHours = minHours;
         }
+
+        public string ErrorMessage => throw new NotImplementedException();
 
         public bool IsSatisfiedBy(Symptom symptom)
         {
