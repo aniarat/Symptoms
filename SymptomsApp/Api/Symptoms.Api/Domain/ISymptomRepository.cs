@@ -9,7 +9,7 @@ namespace Symptoms.Api.Domain
         public Task<Symptom> GetSymptomByIdAsync(string symptomId);
         public Task<List<Symptom>> GetAllSymptomsAsync();
         public Task<Symptom> AddSymptomAsync(Symptom symptom);
-        public Task UpdateSymptomAsync(Symptom symptom, SymptomDto symptomDto);
+        public Task UpdateSymptomAsync(string symptomId, SymptomDto symptomDto);
         public Task<DeleteResult> DeleteSymptomAsync(string symptomId);
         public Task<List<SymptomHistory>> GetSymptomHistoryAsync();
         Task<List<SymptomHistory>> GetSymptomHistoryByIdAsync(string symptomId);

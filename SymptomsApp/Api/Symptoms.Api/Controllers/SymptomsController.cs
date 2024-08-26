@@ -47,7 +47,7 @@ namespace Symptoms.Api.Controllers
                 return NotFound();
             }
             //updatedSymptom.Id = symptom.Id;
-            await _symptomService.UpdateSymptomAsync(symptom, updatedSymptom);
+            await _symptomService.UpdateSymptomAsync(symptomId, updatedSymptom);
             return Ok();
         }
         [HttpDelete("{symptomId}")]

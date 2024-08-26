@@ -1,4 +1,5 @@
 using Symptoms.Api.Domain;
+using Symptoms.Api.Infrastructure;
 using Symptoms.Api.Infrastructure.Data;
 using Symptoms.Api.Infrastructure.Repositories;
 
@@ -11,6 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<MongoDbService>();
+builder.Services.AddMemoryCache(); 
+
+// Rejestracja CacheService
+builder.Services.AddSingleton<CacheService>();
 builder.Services.AddSingleton<ISymptomRepository, SymptomRepository>();
 
 var app = builder.Build();
