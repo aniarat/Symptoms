@@ -20,8 +20,29 @@ namespace Symptoms.Api.Domain.Models
         [Range(1, 10, ErrorMessage = "Severity scale must be a number between 1 and 10.")]
         public int SeverityScale { get; set; }
 
-        [BsonElement("duration_hours"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
-        public decimal? SymptomDurationHours { get; set; }
+        [BsonElement("start_date_time"), BsonRepresentation(MongoDB.Bson.BsonType.DateTime)]
+        [Required(ErrorMessage = "StartDateTime must be specified.")]
+        public DateTime StartDateTime { get; set; }
+
+        [BsonElement("end_date_time"), BsonRepresentation(MongoDB.Bson.BsonType.DateTime)]
+        public DateTime? EndDateTime { get; set; }
+
+        [BsonElement("duration_hours"), BsonRepresentation(MongoDB.Bson.BsonType.Double)]
+        public decimal? SymptomDurationHours
+        {
+            get
+            {
+                if (EndDateTime.HasValue)
+                {
+                    var duration = EndDateTime.Value - StartDateTime;
+                    return (decimal)duration.TotalHours;
+                }
+                return null; // Time duration will be null if EndDateTime is not provided
+            }
+        }
+
+        //[BsonElement("duration_hours"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
+        //public decimal? SymptomDurationHours { get; set; }
 
         [BsonElement("occurence_counter"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
         public int OccurrenceCounter { get; set; }

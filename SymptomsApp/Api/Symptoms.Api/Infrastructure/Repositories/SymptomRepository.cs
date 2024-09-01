@@ -87,6 +87,123 @@ namespace Symptoms.Api.Infrastructure.Repositories
             //return await _symptoms.DeleteOneAsync(x => x.Id == objectId);
         }
 
+        //public async Task UpdateSymptomAsync(string symptomId, SymptomDto updatedSymptom)
+        //{
+        //    var filter = Builders<Symptom>.Filter.Eq(x => x.Id, symptomId);
+        //    var oldSymptom = await _symptoms.Find(filter).FirstOrDefaultAsync();
+
+        //    if (oldSymptom == null)
+        //    {
+        //        throw new Exception("Symptom not found");
+        //    }
+
+        //    var modifiedFields = new List<string>();
+
+        //    if (oldSymptom.SeverityScale != updatedSymptom.SeverityScale)
+        //        modifiedFields.Add("SeverityScale");
+        //    if (oldSymptom.StartDateTime != updatedSymptom.StartDateTime)
+        //        modifiedFields.Add("StartDateTime");
+        //    if (oldSymptom.EndDateTime != updatedSymptom.EndDateTime)
+        //        modifiedFields.Add("EndDateTime");
+        //    if (oldSymptom.SymptomDurationHours != updatedSymptom.SymptomDurationHours)
+        //        modifiedFields.Add("SymptomDurationHours");
+
+        //    foreach (var fieldName in modifiedFields)
+        //    {
+        //        var oldValue = oldSymptom.GetType().GetProperty(fieldName)?.GetValue(oldSymptom)?.ToString();
+        //        var newValue = updatedSymptom.GetType().GetProperty(fieldName)?.GetValue(updatedSymptom)?.ToString();
+
+        //        await SaveSymptomHistoryAsync(symptomId, fieldName, oldValue, newValue);
+        //    }
+
+        //    // Update symptom fields
+        //    var updateDefinition = Builders<Symptom>.Update
+        //        .Set(s => s.SeverityScale, updatedSymptom.SeverityScale)
+        //        .Set(s => s.SymptomDurationHours, updatedSymptom.SymptomDurationHours);
+
+        //    await _symptoms.UpdateOneAsync(filter, updateDefinition);
+
+        //    // Clear caches
+        //    _cacheService.Remove($"Symptom_{symptomId}");
+        //    _cacheService.Remove("AllSymptoms");
+        //}
+
+        //public async Task UpdateSymptomAsync(string symptomId, SymptomDto updatedSymptom)
+        //{
+        //    var filter = Builders<Symptom>.Filter.Eq(x => x.Id, symptomId);
+        //    var oldSymptom = await _symptoms.Find(filter).FirstOrDefaultAsync();
+
+        //    if (oldSymptom == null)
+        //    {
+        //        throw new Exception("Symptom not found");
+        //    }
+
+        //    var modifiedFields = new List<string>();
+
+        //    // Check if fields need to be updated and add them to the modified fields list
+        //    if (IsFieldModified(oldSymptom.SeverityScale, updatedSymptom.SeverityScale))
+        //        modifiedFields.Add("SeverityScale");
+        //    if (IsFieldModified(oldSymptom.StartDateTime, updatedSymptom.StartDateTime))
+        //        modifiedFields.Add("StartDateTime");
+        //    if (IsFieldModified(oldSymptom.EndDateTime, updatedSymptom.EndDateTime))
+        //        modifiedFields.Add("EndDateTime");
+        //    if (IsFieldModified(oldSymptom.SymptomDurationHours, updatedSymptom.SymptomDurationHours))
+        //        modifiedFields.Add("SymptomDurationHours");
+
+        //    foreach (var fieldName in modifiedFields)
+        //    {
+        //        var oldValue = GetPropertyValue(oldSymptom, fieldName);
+        //        var newValue = GetPropertyValue(updatedSymptom, fieldName);
+        //        await SaveSymptomHistoryAsync(symptomId, fieldName, oldValue, newValue);
+        //    }
+
+        //    // Create update definitions based on modified fields
+        //    var updateDefinitions = new List<UpdateDefinition<Symptom>>();
+
+        //    if (modifiedFields.Contains("SeverityScale"))
+        //    {
+        //        updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.SeverityScale, updatedSymptom.SeverityScale));
+        //    }
+        //    if (modifiedFields.Contains("StartDateTime"))
+        //    {
+        //        updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.StartDateTime, updatedSymptom.StartDateTime));
+        //    }
+        //    if (modifiedFields.Contains("EndDateTime"))
+        //    {
+        //        updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.EndDateTime, updatedSymptom.EndDateTime));
+        //    }
+        //    if (modifiedFields.Contains("SymptomDurationHours"))
+        //    {
+        //        updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.SymptomDurationHours, updatedSymptom.SymptomDurationHours));
+        //    }
+
+        //    if (updateDefinitions.Count > 0)
+        //    {
+        //        var updateDefinition = Builders<Symptom>.Update.Combine(updateDefinitions);
+        //        await _symptoms.UpdateOneAsync(filter, updateDefinition);
+        //    }
+
+        //    // Clear caches
+        //    _cacheService.Remove($"Symptom_{symptomId}");
+        //    _cacheService.Remove("AllSymptoms");
+        //}
+
+        //// Helper method to determine if a field has been modified
+        //private bool IsFieldModified<T>(T oldValue, T newValue)
+        //{
+        //    if (oldValue == null && newValue == null)
+        //        return false;
+        //    if (oldValue == null || newValue == null)
+        //        return true;
+        //    return !oldValue.Equals(newValue);
+        //}
+
+        //// Helper method to get property value as a string
+        //private string GetPropertyValue(object obj, string propertyName)
+        //{
+        //    var value = obj.GetType().GetProperty(propertyName)?.GetValue(obj);
+        //    return value?.ToString() ?? "N/A";
+        //}
         public async Task UpdateSymptomAsync(string symptomId, SymptomDto updatedSymptom)
         {
             var filter = Builders<Symptom>.Filter.Eq(x => x.Id, symptomId);
@@ -99,29 +216,67 @@ namespace Symptoms.Api.Infrastructure.Repositories
 
             var modifiedFields = new List<string>();
 
-            if (oldSymptom.SeverityScale != updatedSymptom.SeverityScale)
+            // Check if fields in the updatedSymptom are different from the oldSymptom
+            if (updatedSymptom.SeverityScale != default && oldSymptom.SeverityScale != updatedSymptom.SeverityScale)
+            {
                 modifiedFields.Add("SeverityScale");
-            if (oldSymptom.SymptomDurationHours != updatedSymptom.SymptomDurationHours)
+            }
+            if (updatedSymptom.StartDateTime != default && oldSymptom.StartDateTime != updatedSymptom.StartDateTime)
+            {
+                modifiedFields.Add("StartDateTime");
+            }
+            if (updatedSymptom.EndDateTime != null && oldSymptom.EndDateTime != updatedSymptom.EndDateTime)
+            {
+                modifiedFields.Add("EndDateTime");
+            }
+            if (updatedSymptom.SymptomDurationHours != null && oldSymptom.SymptomDurationHours != updatedSymptom.SymptomDurationHours)
+            {
                 modifiedFields.Add("SymptomDurationHours");
+            }
 
             foreach (var fieldName in modifiedFields)
             {
-                var oldValue = oldSymptom.GetType().GetProperty(fieldName)?.GetValue(oldSymptom)?.ToString();
-                var newValue = updatedSymptom.GetType().GetProperty(fieldName)?.GetValue(updatedSymptom)?.ToString();
-
+                var oldValue = GetPropertyValue(oldSymptom, fieldName);
+                var newValue = GetPropertyValue(updatedSymptom, fieldName);
                 await SaveSymptomHistoryAsync(symptomId, fieldName, oldValue, newValue);
             }
 
-            // Update symptom fields
-            var updateDefinition = Builders<Symptom>.Update
-                .Set(s => s.SeverityScale, updatedSymptom.SeverityScale)
-                .Set(s => s.SymptomDurationHours, updatedSymptom.SymptomDurationHours);
+            // Create update definitions based on modified fields
+            var updateDefinitions = new List<UpdateDefinition<Symptom>>();
 
-            await _symptoms.UpdateOneAsync(filter, updateDefinition);
+            if (modifiedFields.Contains("SeverityScale"))
+            {
+                updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.SeverityScale, updatedSymptom.SeverityScale));
+            }
+            if (modifiedFields.Contains("StartDateTime"))
+            {
+                updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.StartDateTime, updatedSymptom.StartDateTime));
+            }
+            if (modifiedFields.Contains("EndDateTime"))
+            {
+                updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.EndDateTime, updatedSymptom.EndDateTime));
+            }
+            if (modifiedFields.Contains("SymptomDurationHours"))
+            {
+                updateDefinitions.Add(Builders<Symptom>.Update.Set(s => s.SymptomDurationHours, updatedSymptom.SymptomDurationHours));
+            }
+
+            if (updateDefinitions.Count > 0)
+            {
+                var updateDefinition = Builders<Symptom>.Update.Combine(updateDefinitions);
+                await _symptoms.UpdateOneAsync(filter, updateDefinition);
+            }
 
             // Clear caches
             _cacheService.Remove($"Symptom_{symptomId}");
             _cacheService.Remove("AllSymptoms");
+        }
+
+        // Helper method to get property value as a string
+        private string GetPropertyValue(object obj, string propertyName)
+        {
+            var value = obj.GetType().GetProperty(propertyName)?.GetValue(obj);
+            return value?.ToString() ?? "N/A";
         }
 
 

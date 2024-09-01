@@ -15,7 +15,7 @@ namespace Symptoms.Client.Rules
         {
             if (minHours <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(minHours), "minHours must be greater than 0.");
+                throw new ArgumentOutOfRangeException(nameof(minHours), "must be greater than 0.");
             }
             _minHours = minHours;
         }
