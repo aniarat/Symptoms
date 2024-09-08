@@ -13,7 +13,6 @@ namespace Symptoms.Api.Domain.DTOs
         [BsonElement("end_date_time"), BsonRepresentation(MongoDB.Bson.BsonType.DateTime)]
         public DateTime? EndDateTime { get; set; }
 
-        // Duration will be computed based on StartDateTime and EndDateTime
         [BsonIgnore]
         public decimal? SymptomDurationHours
         {
@@ -24,7 +23,7 @@ namespace Symptoms.Api.Domain.DTOs
                     var duration = EndDateTime.Value - StartDateTime;
                     return (decimal)duration.TotalHours;
                 }
-                return null; // Time duration will be null if EndDateTime is not provided
+                return null; 
             }
         }
         //[BsonElement("duration_hours"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]

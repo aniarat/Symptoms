@@ -11,14 +11,12 @@ namespace Symptoms.Api.Infrastructure.Repositories
     {
         private readonly IMongoCollection<Symptom>? _symptoms;
         private readonly IMongoCollection<SymptomHistory>? _symptomsHistory;
-        private readonly CacheService _cacheService;
 
 
-        public SymptomRepository(MongoDbService mongoDbService, CacheService cacheService)
+        public SymptomRepository(MongoDbService mongoDbService)
         {
             _symptoms = mongoDbService.Database?.GetCollection<Symptom>("symptom");
             _symptomsHistory = mongoDbService.Database?.GetCollection<SymptomHistory>("symptom_history");
-            _cacheService = cacheService;
         }
 
         public async Task<Symptom> GetSymptomByIdAsync(string symptomId)
@@ -136,6 +134,43 @@ namespace Symptoms.Api.Infrastructure.Repositories
         }
 
 
+      
+        private async Task SaveSymptomHistoryAsync(string symptomId, string fieldName, string oldValue, string newValue)
+        {
+
+            var history = new SymptomHistory
+            {
+                SymptomId = symptomId,
+                FieldName = fieldName,
+                OldValue = oldValue,
+                NewValue = newValue,
+                ModifiedDate = DateTime.Now
+            };
+
+            await _symptomsHistory.InsertOneAsync(history);
+        }
+
+        public async Task<List<SymptomHistory>> GetSymptomHistoryAsync()
+        {
+            return await _symptomsHistory.Find(_ => true).ToListAsync();
+        }
+
+        public async Task<List<SymptomHistory>> GetSymptomHistoryByIdAsync(string symptomId)
+        {
+
+            //var objectId = ObjectId.Parse(symptomId);
+            var filter = Builders<SymptomHistory>.Filter.Eq(s => s.SymptomId, symptomId);
+            var histories = await _symptomsHistory.Find(filter).ToListAsync();
+            return histories.Select(h => new SymptomHistory
+            {
+                FieldName = h.FieldName,
+                OldValue = h.OldValue,
+                NewValue = h.NewValue,
+                ModifiedDate = h.ModifiedDate
+            }).ToList();
+        }
+
+
         //public async Task UpdateSymptomAsync(Symptom symptom, SymptomDto updatedSymptom)
         //{
         //    //var objectId = ObjectId.Parse(symptom.Id); // Konwertuj string na ObjectId
@@ -173,39 +208,5 @@ namespace Symptoms.Api.Infrastructure.Repositories
         //    }
         //}
 
-        private async Task SaveSymptomHistoryAsync(string symptomId, string fieldName, string oldValue, string newValue)
-        {
-
-            var history = new SymptomHistory
-            {
-                SymptomId = symptomId,
-                FieldName = fieldName,
-                OldValue = oldValue,
-                NewValue = newValue,
-                ModifiedDate = DateTime.Now
-            };
-
-            await _symptomsHistory.InsertOneAsync(history);
-        }
-
-        public async Task<List<SymptomHistory>> GetSymptomHistoryAsync()
-        {
-            return await _symptomsHistory.Find(_ => true).ToListAsync();
-        }
-
-        public async Task<List<SymptomHistory>> GetSymptomHistoryByIdAsync(string symptomId)
-        {
-
-            //var objectId = ObjectId.Parse(symptomId);
-            var filter = Builders<SymptomHistory>.Filter.Eq(s => s.SymptomId, symptomId);
-            var histories = await _symptomsHistory.Find(filter).ToListAsync();
-            return histories.Select(h => new SymptomHistory
-            {
-                FieldName = h.FieldName,
-                OldValue = h.OldValue,
-                NewValue = h.NewValue,
-                ModifiedDate = h.ModifiedDate
-            }).ToList();
-        }
     }
 }

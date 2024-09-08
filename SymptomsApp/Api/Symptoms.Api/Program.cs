@@ -15,7 +15,6 @@ builder.Services.AddSingleton<MongoDbService>();
 builder.Services.AddMemoryCache(); 
 
 // Rejestracja CacheService
-builder.Services.AddSingleton<CacheService>();
 builder.Services.AddSingleton<ISymptomRepository, SymptomRepository>();
 
 var app = builder.Build();
