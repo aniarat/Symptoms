@@ -37,12 +37,9 @@ namespace Symptoms.Api.Domain.Models
                     var duration = EndDateTime.Value - StartDateTime;
                     return (decimal)duration.TotalHours;
                 }
-                return null; // Time duration will be null if EndDateTime is not provided
+                return null; 
             }
         }
-
-        //[BsonElement("duration_hours"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
-        //public decimal? SymptomDurationHours { get; set; }
 
         [BsonElement("occurence_counter"), BsonRepresentation(MongoDB.Bson.BsonType.Int32)]
         public int OccurrenceCounter { get; set; }
